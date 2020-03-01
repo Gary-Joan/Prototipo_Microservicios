@@ -8,7 +8,7 @@ services:
       - "8000:8000"
     stdin_open: true
     tty: true
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
   frontend:
     build: ./frontend
     volumes:
@@ -22,10 +22,3 @@ services:
     depends_on:
       - backend
     command: npm start
-  migration:
-    build: ./backend
-    command: python manage.py migrate --noinput
-    volumes:
-       - ./backend:/app/backend
-    depends_on:
-      - backend
